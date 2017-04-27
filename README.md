@@ -1,0 +1,1 @@
+Index des annonces d'appartement et permet ensuite de faire des recherches full-text dessus 
