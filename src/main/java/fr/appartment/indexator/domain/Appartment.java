@@ -8,6 +8,7 @@ import lombok.Data;
 public class Appartment {
 
 	private Long id;
+	private String externalId;
 	private Integer price;
 	private String description;
 	

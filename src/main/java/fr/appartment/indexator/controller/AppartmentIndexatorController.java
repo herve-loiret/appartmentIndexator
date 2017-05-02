@@ -7,13 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.appartment.indexator.dto.IndexationCreationDto;
+import fr.appartment.indexator.service.IndexatorService;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(path = "/indexator", produces = MediaType.APPLICATION_JSON_VALUE)
+@AllArgsConstructor
 public class AppartmentIndexatorController {
 
-	@PostMapping
+	private IndexatorService indexatorService;
+
+	@PostMapping(value = "/index")
 	public void postTransaction(@RequestBody IndexationCreationDto indexationCreationDto) {
-		
+		indexatorService.index(indexationCreationDto.getPostalCodes(), indexationCreationDto.getMinPrice(),
+				indexationCreationDto.getMaxPrice());
 	}
 }
