@@ -1,4 +1,4 @@
-package fr.appartment.indexator.service;
+package fr.appartment.indexator.brokers;
 
 import java.util.List;
 

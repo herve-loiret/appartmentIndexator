@@ -34,9 +34,9 @@ public class AppartmentIndexatorControllerTest {
 	@Test
 	@SneakyThrows
 	public void should_indexation_creation_work() {
-		int minPrice = 2000;
-		int maxPrice = 3000;
-		List<String> postalCodes = Arrays.asList("75010");
+		int minPrice = 100_000;
+		int maxPrice = 300_000;
+		List<String> postalCodes = Arrays.asList("75011");
 
 		IndexationCreationDto indexationCreationDto = new IndexationCreationDto();
 		indexationCreationDto.setMinPrice(minPrice);
