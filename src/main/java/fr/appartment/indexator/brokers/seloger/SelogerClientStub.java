@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Profile("local")
 @Slf4j
-public class SelogerClientStub implements SelogerClient {
+public class SelogerClientStub extends SelogerClient {
 
 	@Override
 	public String getPage(List<String> postalCodes, Integer minPrice, Integer maxPrice, int page) {

@@ -1,10 +1,10 @@
 package fr.appartment.indexator.brokers.seloger;
 
-import fr.appartment.indexator.brokers.seloger.SelogerClientImpl;
+import fr.appartment.indexator.brokers.seloger.SelogerClient;
 
 public class SelogerClientTest {
 
-	private SelogerClientImpl selogerClientImpl = new SelogerClientImpl();
+	private SelogerClient selogerClientImpl = new SelogerClient();
 
 	
 

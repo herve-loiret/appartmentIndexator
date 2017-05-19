@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SelogerIndexator implements DataIndexator {
 
 	private static final int APPARTMENT_DATA_SCRITP_POSITION = 2;
+
 	@Autowired
 	private SelogerClient client;
 
@@ -34,7 +35,7 @@ public class SelogerIndexator implements DataIndexator {
 	public List<Appartment> index(List<String> postalCodes, Integer minPrice, Integer maxPrice) {
 
 		int page = 1;
-		while (page < 2) {
+		while (page < 4) {
 
 			String pageContent = client.getPage(postalCodes, minPrice, maxPrice, page);
 
@@ -70,6 +71,14 @@ public class SelogerIndexator implements DataIndexator {
 				appartment.setPrice(parseDouble(product.get("prix")));
 				appartment.setSurface(parseDouble(product.get("surface")));
 				appartment.setNbPhotos(parseInt(product.get("nb_photos")));
+				appartment.setType(parseString(product.get("typedebien")));
+				appartment.setTypeChauffage(parseString(product.get("idtypechauffage")));
+				appartment.setTypeCuisine(parseString(product.get("idtypecuisine")));
+				appartment.setHasBalcon(parseNumberBoolean(product.get("si_balcon")));
+				appartment.setHasSdbain(parseNumberBoolean(product.get("si_sdbain")));
+				appartment.setHasSdEau(parseNumberBoolean(product.get("si_sdEau")));
+				appartment.setNbChambres(parseInt(product.get("nb_chambres")));
+				appartment.setNbPieces(parseInt(product.get("nb_pieces")));
 				System.out.println(appartment);
 
 			}
@@ -79,6 +88,14 @@ public class SelogerIndexator implements DataIndexator {
 		}
 
 		return appartments;
+	}
+
+	private Boolean parseNumberBoolean(Object object) {
+		if (object == null) {
+			return null;
+		} else {
+			return "1".equals(parseString(object));
+		}
 	}
 
 	private Double parseDouble(Object object) {
