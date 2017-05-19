@@ -16,9 +16,9 @@ public class SelogerClientImpl implements SelogerClient {
 	@Override
 	public String getPage(List<String> postalCodes, Integer minPrice, Integer maxPrice, int page) {
 
-		String url = urlGenerator.generateUrl(postalCodes, minPrice, maxPrice, page);
-		
-		System.out.println("seloger client");
+//		String url = urlGenerator.generateUrl(postalCodes, minPrice, maxPrice, page);
+//		
+//		System.out.println("seloger client");
 		
 		return "";
 	}
