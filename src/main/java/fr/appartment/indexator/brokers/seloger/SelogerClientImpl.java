@@ -1,4 +1,4 @@
-package fr.appartment.indexator.brokers;
+package fr.appartment.indexator.brokers.seloger;
 
 import java.util.List;
 
@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Profile("!local")
-public class ClientImpl implements Client {
+public class SelogerClientImpl implements SelogerClient {
 
 	@Autowired
 	private SelogerUrlGenerator urlGenerator;
 	
 	@Override
-	public String getPage(List<String> postalCodes, int minPrice, int maxPrice, int page) {
+	public String getPage(List<String> postalCodes, Integer minPrice, Integer maxPrice, int page) {
 
 		String url = urlGenerator.generateUrl(postalCodes, minPrice, maxPrice, page);
 		

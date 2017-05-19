@@ -1,17 +1,18 @@
-package fr.appartment.indexator.brokers;
+package fr.appartment.indexator.brokers.seloger;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.appartment.indexator.brokers.DataIndexator;
 import fr.appartment.indexator.domain.Appartment;
 
 @Component
 public class SelogerIndexator implements DataIndexator {
 
 	@Autowired
-	private ClientImpl client;
+	private SelogerClient client;
 
 	@Override
 	public List<Appartment> index(List<String> postalCodes, Integer minPrice, Integer maxPrice) {

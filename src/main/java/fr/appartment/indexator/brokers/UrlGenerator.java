@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface UrlGenerator {
 
-	String generateUrl(List<String> postalCodes, int minPrice, int maxPrice, int page);
+	String generateUrl(List<String> postalCodes, Integer minPrice, Integer maxPrice, int page);
 
 }

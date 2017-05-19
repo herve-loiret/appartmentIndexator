@@ -1,10 +1,12 @@
-package fr.appartment.indexator.brokers;
+package fr.appartment.indexator.brokers.seloger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
 import org.junit.Test;
+
+import fr.appartment.indexator.brokers.seloger.SelogerUrlGenerator;
 
 public class SelogerUrlGeneratorTest {
 

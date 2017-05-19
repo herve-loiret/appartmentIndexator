@@ -1,5 +1,8 @@
 package fr.appartment.indexator.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +15,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles(profiles = "local")
 public class IndexatorServiceTest {
 
-	  @Autowired
-	  private IndexatorService indexatorService;
-	  
-	  @Test
-	  public void should_(){
-		  indexatorService.index(null, null, null);
-	  }
-	  
+	@Autowired
+	private IndexatorService indexatorService;
+
+	@Test
+	public void should_index() {
+		List<String> postalCodes = Arrays.asList("75010");
+		int minPrice = 1000;
+		int maxPrice = 300000;
+
+		indexatorService.index(postalCodes, minPrice, maxPrice);
+	}
+
 }
