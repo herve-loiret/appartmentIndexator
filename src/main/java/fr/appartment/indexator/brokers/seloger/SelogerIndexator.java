@@ -1,12 +1,16 @@
 package fr.appartment.indexator.brokers.seloger;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
+import static fr.appartment.indexator.utils.ParserUtils.parseDouble;
+import static fr.appartment.indexator.utils.ParserUtils.parseInt;
+import static fr.appartment.indexator.utils.ParserUtils.parseNumberBoolean;
+import static fr.appartment.indexator.utils.ParserUtils.parseString;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -34,13 +38,15 @@ public class SelogerIndexator implements DataIndexator {
 	@Override
 	public List<Appartment> index(List<String> postalCodes, Integer minPrice, Integer maxPrice) {
 
-		int page = 1;
-		while (page < 4) {
+		List<Appartment> appartements = new ArrayList<>();
 
-			String pageContent = client.getPage(postalCodes, minPrice, maxPrice, page);
-
-			deserializeAppartment(pageContent);
-			page++;
+		String pageContent = client.getPage(postalCodes, minPrice, maxPrice, 1);
+		int pageTotal = this.findPageNumber(pageContent);
+		appartements = deserializeAppartment(pageContent);
+		if (pageTotal > 1) {
+			for (int i = 1; i < pageTotal; i++) {
+				// TODO continue here
+			}
 		}
 
 		return null;
@@ -61,7 +67,6 @@ public class SelogerIndexator implements DataIndexator {
 			Map<String, Object> products = (Map<String, Object>) ((Map<String, Object>) engine.get("ava_data"))
 					.get("products");
 			for (Entry<String, Object> productsEntry : products.entrySet()) {
-
 				Map<String, Object> product = (Map<String, Object>) productsEntry.getValue();
 				Appartment appartment = new Appartment();
 				appartment.setExternalId(parseString(product.get("idannonce")));
@@ -79,53 +84,27 @@ public class SelogerIndexator implements DataIndexator {
 				appartment.setHasSdEau(parseNumberBoolean(product.get("si_sdEau")));
 				appartment.setNbChambres(parseInt(product.get("nb_chambres")));
 				appartment.setNbPieces(parseInt(product.get("nb_pieces")));
-				System.out.println(appartment);
-
 			}
 		} catch (ScriptException e) {
-			e.printStackTrace();
 			log.error("error while trying to index appartment", e);
 		}
 
 		return appartments;
 	}
 
-	private Boolean parseNumberBoolean(Object object) {
-		if (object == null) {
-			return null;
-		} else {
-			return "1".equals(parseString(object));
+	public int findPageNumber(String pageContent) {
+		int result = 0;
+		Document page = Jsoup.parse(pageContent);
+		String pageString = page.getElementsByClass("pagination_result_number").first().html();
+		Pattern pattern = Pattern.compile("Page ([0-9]+) / ([0-9]+)");
+		Matcher matcher = pattern.matcher(pageString);
+		if (matcher.find()) {
+			// int currentPage = matcher.group(1));
+			result = Integer.valueOf(matcher.group(2));
 		}
-	}
 
-	private Double parseDouble(Object object) {
-		NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
-		if (object == null) {
-			return null;
-		} else {
-			try {
-				return format.parse(String.valueOf(object)).doubleValue();
-			} catch (ParseException e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
-	}
+		return result;
 
-	private Integer parseInt(Object object) {
-		if (object == null) {
-			return null;
-		} else {
-			return Integer.valueOf(String.valueOf(object));
-		}
-	}
-
-	private String parseString(Object object) {
-		if (object == null) {
-			return null;
-		} else {
-			return String.valueOf(object);
-		}
 	}
 
 	private String findAppartmentUrl(Document page, Map<String, Object> product) {
