@@ -24,3 +24,7 @@ nbdist/
 .nb-gradle/
 /.mvn/
 .DS_Store
+
+
+### private config file
+application-private.properties

@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles(profiles = "local")
-public class IndexatorServiceTest {
+public class IndexatorServiceIT {
 
 	@Autowired
 	private IndexatorService indexatorService;
