@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import fr.appartment.indexator.brokers.DataIndexator;
 import fr.appartment.indexator.domain.Appartment;
+import fr.appartment.indexator.service.AppartmentService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -33,8 +34,11 @@ public class SelogerIndexator implements DataIndexator {
 
 	private SelogerClient client;
 
-	public SelogerIndexator(SelogerClient client) {
+	private AppartmentService appartmentService;
+
+	public SelogerIndexator(SelogerClient client, AppartmentService appartmentService) {
 		this.client = client;
+		this.appartmentService = appartmentService;
 	}
 
 	@Override
@@ -44,11 +48,23 @@ public class SelogerIndexator implements DataIndexator {
 
 		int currentPage = 1;
 		int pageTotal = 0;
+		boolean continueIndexing = true;
 		do {
-			String pageContent = client.getPage(postalCodes, minPrice, maxPrice, 1);
-			appartements.addAll(deserializeAppartment(pageContent));
+			String pageContent = client.getPage(postalCodes, minPrice, maxPrice, currentPage);
+			List<Appartment> deserializeAppartments = deserializeAppartment(pageContent);
+
+			for (Appartment appartment : deserializeAppartments) {
+				if (appartmentService.isAlreadyInDatabase(appartment)) {
+					continueIndexing = false;
+					log.info("stop indexing seloger at page {} because {} is already in database", currentPage,
+							appartment);
+				}
+				appartements.add(appartment);
+			}
+
 			pageTotal = this.findPageNumber(pageContent);
-		} while (currentPage <= pageTotal);
+			currentPage++;
+		} while (currentPage <= pageTotal && continueIndexing);
 
 		return appartements;
 	}

@@ -6,4 +6,5 @@ import fr.appartment.indexator.repository.solr.AppartmentDocument;
 
 public interface AppartmentRepository extends SolrCrudRepository<AppartmentDocument, Long> {
 
+	AppartmentDocument findByUrl(String url);
 }

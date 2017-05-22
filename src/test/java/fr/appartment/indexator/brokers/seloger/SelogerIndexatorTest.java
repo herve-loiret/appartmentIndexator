@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class SelogerIndexatorTest {
 
-	private SelogerIndexator selogerIndexator = new SelogerIndexator(null);
+	private SelogerIndexator selogerIndexator = new SelogerIndexator(null, null);
 
 	@Test
 	public void should_parse_page_number() {

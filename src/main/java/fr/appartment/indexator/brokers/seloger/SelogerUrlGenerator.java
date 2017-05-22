@@ -12,7 +12,7 @@ public class SelogerUrlGenerator implements UrlGenerator {
 	@Override
 	public String generateUrl(List<String> postalCodes, Integer minPrice, Integer maxPrice, int page) {
 
-		String baseUrl = "http://www.seloger.com/list.htm?idtt=2&naturebien=1,2,4&idtypebien=1,2,9&tri=initial";
+		String baseUrl = "http://www.seloger.com/list.htm?idtt=2&naturebien=1,2,4&idtypebien=1,2,9&tri=d_dt_crea";
 		baseUrl += "&cp=" + postalCodes.get(0);
 		if(minPrice != null){
 			baseUrl += "&pxmin=" + String.valueOf(minPrice);

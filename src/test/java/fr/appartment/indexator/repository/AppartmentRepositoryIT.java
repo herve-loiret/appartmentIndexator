@@ -1,5 +1,7 @@
 package fr.appartment.indexator.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +33,6 @@ public class AppartmentRepositoryIT {
 		Appartment appartment = new PodamFactoryImpl().manufacturePojo(Appartment.class);
 		AppartmentDocument document = mapper.appartmentToAppartmentDocument(appartment);
 		AppartmentDocument result = repository.save(document);
+		assertThat(result).isNotNull();
 	}
 }
