@@ -14,7 +14,7 @@ public class AppartmentDocument {
 
 	@Id
 	@Field
-	private Long id;
+	private String id;
 	@Field
 	private String externalId;
 	@Field

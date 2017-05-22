@@ -14,10 +14,10 @@ public class SelogerUrlGenerator implements UrlGenerator {
 
 		String baseUrl = "http://www.seloger.com/list.htm?idtt=2&naturebien=1,2,4&idtypebien=1,2,9&tri=d_dt_crea";
 		baseUrl += "&cp=" + postalCodes.get(0);
-		if(minPrice != null){
+		if (minPrice != null) {
 			baseUrl += "&pxmin=" + String.valueOf(minPrice);
 		}
-		if(maxPrice != null){
+		if (maxPrice != null) {
 			baseUrl += "&pxmax=" + String.valueOf(maxPrice);
 		}
 

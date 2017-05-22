@@ -21,56 +21,22 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
 
-import fr.appartment.indexator.brokers.DataIndexator;
 import fr.appartment.indexator.domain.Appartment;
 import fr.appartment.indexator.service.AppartmentService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class SelogerIndexator implements DataIndexator {
+public class SelogerIndexator extends AbstractIndexator {
 
 	private static final int APPARTMENT_DATA_SCRITP_POSITION = 2;
 
-	private SelogerClient client;
-
-	private AppartmentService appartmentService;
-
 	public SelogerIndexator(SelogerClient client, AppartmentService appartmentService) {
-		this.client = client;
-		this.appartmentService = appartmentService;
-	}
-
-	@Override
-	public List<Appartment> index(List<String> postalCodes, Integer minPrice, Integer maxPrice) {
-
-		List<Appartment> appartements = new ArrayList<>();
-
-		int currentPage = 1;
-		int pageTotal = 0;
-		boolean continueIndexing = true;
-		do {
-			String pageContent = client.getPage(postalCodes, minPrice, maxPrice, currentPage);
-			List<Appartment> deserializeAppartments = deserializeAppartment(pageContent);
-
-			for (Appartment appartment : deserializeAppartments) {
-				if (appartmentService.isAlreadyInDatabase(appartment)) {
-					continueIndexing = false;
-					log.info("stop indexing seloger at page {} because {} is already in database", currentPage,
-							appartment);
-				}
-				appartements.add(appartment);
-			}
-
-			pageTotal = this.findPageNumber(pageContent);
-			currentPage++;
-		} while (currentPage <= pageTotal && continueIndexing);
-
-		return appartements;
+		super(client, appartmentService);
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Appartment> deserializeAppartment(String pageContent) {
+	protected List<Appartment> deserializeAppartmentFromPageContent(String pageContent) {
 
 		List<Appartment> appartments = new ArrayList<>();
 
@@ -110,7 +76,8 @@ public class SelogerIndexator implements DataIndexator {
 		return appartments;
 	}
 
-	public int findPageNumber(String pageContent) {
+	@Override
+	public int findPageNumberFromPageContent(String pageContent) {
 		int result = 0;
 		Document page = Jsoup.parse(pageContent);
 		String pageString = page.getElementsByClass("pagination_result_number").first().html();
