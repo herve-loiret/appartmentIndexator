@@ -15,7 +15,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles(profiles = "local")
-public class SolrAppartmentRepositoryIT {
+public class AppartmentRepositoryIT {
 	/**
 	 * TODO refactor from :
 	 * https://github.com/spring-projects/spring-data-solr-examples/blob/master/spring-solr-repository-example/src/test/java/org/springframework/data/solr/example/ITestSolrProductRepository.java
@@ -24,7 +24,7 @@ public class SolrAppartmentRepositoryIT {
 	private SolrMapper mapper;
 
 	@Autowired
-	private SolrAppartmentRepository repository;
+	private AppartmentRepository repository;
 
 	@Test
 	public void should_save_and_delete_an_appartment() {

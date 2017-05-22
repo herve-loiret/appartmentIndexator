@@ -19,7 +19,6 @@ import javax.script.ScriptException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.appartment.indexator.brokers.DataIndexator;
@@ -32,24 +31,26 @@ public class SelogerIndexator implements DataIndexator {
 
 	private static final int APPARTMENT_DATA_SCRITP_POSITION = 2;
 
-	@Autowired
 	private SelogerClient client;
+
+	public SelogerIndexator(SelogerClient client) {
+		this.client = client;
+	}
 
 	@Override
 	public List<Appartment> index(List<String> postalCodes, Integer minPrice, Integer maxPrice) {
 
 		List<Appartment> appartements = new ArrayList<>();
 
-		String pageContent = client.getPage(postalCodes, minPrice, maxPrice, 1);
-		int pageTotal = this.findPageNumber(pageContent);
-		appartements = deserializeAppartment(pageContent);
-		if (pageTotal > 1) {
-			for (int i = 1; i < pageTotal; i++) {
-				// TODO continue here
-			}
-		}
+		int currentPage = 1;
+		int pageTotal = 0;
+		do {
+			String pageContent = client.getPage(postalCodes, minPrice, maxPrice, 1);
+			appartements.addAll(deserializeAppartment(pageContent));
+			pageTotal = this.findPageNumber(pageContent);
+		} while (currentPage <= pageTotal);
 
-		return null;
+		return appartements;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -84,6 +85,7 @@ public class SelogerIndexator implements DataIndexator {
 				appartment.setHasSdEau(parseNumberBoolean(product.get("si_sdEau")));
 				appartment.setNbChambres(parseInt(product.get("nb_chambres")));
 				appartment.setNbPieces(parseInt(product.get("nb_pieces")));
+				appartments.add(appartment);
 			}
 		} catch (ScriptException e) {
 			log.error("error while trying to index appartment", e);

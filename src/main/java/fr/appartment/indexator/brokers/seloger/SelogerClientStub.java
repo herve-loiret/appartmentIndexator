@@ -17,6 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SelogerClientStub extends SelogerClient {
 
+	public SelogerClientStub() {
+		super(null);
+	}
+
 	@Override
 	public String getPage(List<String> postalCodes, Integer minPrice, Integer maxPrice, int page) {
 
