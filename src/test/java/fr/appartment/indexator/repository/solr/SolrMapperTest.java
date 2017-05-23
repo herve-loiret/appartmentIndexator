@@ -31,7 +31,7 @@ public class SolrMapperTest {
 		assertThat(appartmentDocument.getHasBalcon()).isEqualTo(appartment.getHasBalcon());
 		assertThat(appartmentDocument.getHasSdbain()).isEqualTo(appartment.getHasSdbain());
 		assertThat(appartmentDocument.getHasSdEau()).isEqualTo(appartment.getHasSdEau());
-		assertThat(appartmentDocument.getId()).isEqualTo(appartment.getId());
+		assertThat(appartmentDocument.getId()).isEqualTo(String.valueOf(appartment.getId()));
 		assertThat(appartmentDocument.getIndexationTime()).isEqualTo(appartment.getIndexationTime());
 		assertThat(appartmentDocument.getNbChambres()).isEqualTo(appartment.getNbChambres());
 		assertThat(appartmentDocument.getNbPhotos()).isEqualTo(appartment.getNbPhotos());

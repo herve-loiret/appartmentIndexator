@@ -1,10 +1,8 @@
-package fr.appartment.indexator.brokers.seloger;
+package fr.appartment.indexator.brokers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.appartment.indexator.brokers.Client;
-import fr.appartment.indexator.brokers.DataIndexator;
 import fr.appartment.indexator.domain.Appartment;
 import fr.appartment.indexator.service.AppartmentService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public abstract class AbstractIndexator implements DataIndexator {
+public abstract class AbstractIndexator implements Indexator {
 
 	private AppartmentService appartmentService;
 
@@ -26,14 +24,14 @@ public abstract class AbstractIndexator implements DataIndexator {
 	}
 
 	@Override
-	public List<Appartment> index(List<String> postalCodes, Integer minPrice, Integer maxPrice) {
+	public List<Appartment> processIndex(List<String> postalCodes, Integer minPrice, Integer maxPrice) {
 		List<Appartment> appartements = new ArrayList<>();
 
 		int currentPage = 1;
 		int pageTotal = 0;
 		boolean continueIndexing = true;
 		do {
-			String pageContent = client.getPage(postalCodes, minPrice, maxPrice, currentPage);
+			String pageContent = client.getSearchPage(postalCodes, minPrice, maxPrice, currentPage);
 			List<Appartment> deserializeAppartments = deserializeAppartmentFromPageContent(pageContent);
 
 			for (Appartment appartment : deserializeAppartments) {
@@ -42,7 +40,8 @@ public abstract class AbstractIndexator implements DataIndexator {
 					log.info("stop indexing seloger at page {} because {} is already in database", currentPage,
 							appartment);
 				} else {
-					appartment = findDetails(appartment);
+					String detailPage = client.getDetailsPage(appartment);
+					appartment = deserializeDetails(appartment, detailPage);
 					appartements.add(appartment);
 				}
 			}
@@ -57,5 +56,7 @@ public abstract class AbstractIndexator implements DataIndexator {
 	protected abstract int findPageNumberFromPageContent(String pageContent);
 
 	protected abstract List<Appartment> deserializeAppartmentFromPageContent(String pageContent);
+
+	protected abstract Appartment deserializeDetails(Appartment appartment, String detailPage);
 
 }

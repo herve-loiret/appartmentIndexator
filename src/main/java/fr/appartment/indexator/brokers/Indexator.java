@@ -4,8 +4,8 @@ import java.util.List;
 
 import fr.appartment.indexator.domain.Appartment;
 
-public interface DataIndexator {
+public interface Indexator {
 
-	List<Appartment> index(List<String> postalCodes, Integer minPrice, Integer maxPrice);
+	List<Appartment> processIndex(List<String> postalCodes, Integer minPrice, Integer maxPrice);
 	
 }

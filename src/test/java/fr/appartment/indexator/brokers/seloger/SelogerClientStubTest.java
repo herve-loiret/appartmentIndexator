@@ -20,7 +20,7 @@ public class SelogerClientStubTest {
 		Path path = Paths.get(ClassLoader.getSystemResource("mocks/seloger/seloger_11eme_page1.htm").toURI());
 		String content = new String(Files.readAllBytes(path));
 
-		String page = client.getPage(null, null, null, 1);
+		String page = client.getSearchPage(null, null, null, 1);
 
 		assertThat(page).isNotBlank();
 		assertThat(page).isEqualTo(content);
@@ -32,7 +32,7 @@ public class SelogerClientStubTest {
 		Path path = Paths.get(ClassLoader.getSystemResource("mocks/seloger/seloger_11eme_page2.htm").toURI());
 		String content = new String(Files.readAllBytes(path));
 
-		String page = client.getPage(null, null, null, 2);
+		String page = client.getSearchPage(null, null, null, 2);
 
 		assertThat(page).isNotBlank();
 		assertThat(page).isEqualTo(content);
@@ -44,7 +44,7 @@ public class SelogerClientStubTest {
 		Path path = Paths.get(ClassLoader.getSystemResource("mocks/seloger/seloger_11eme_page3.htm").toURI());
 		String content = new String(Files.readAllBytes(path));
 
-		String page = client.getPage(null, null, null, 3);
+		String page = client.getSearchPage(null, null, null, 3);
 
 		assertThat(page).isNotBlank();
 		assertThat(page).isEqualTo(content);

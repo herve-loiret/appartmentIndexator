@@ -15,7 +15,7 @@ public class SelogerUrlGeneratorTest {
 	@Test
 	public void should_generate_url_with_page_1() {
 
-		String url = selogerUrlGenerator.generateUrl(Arrays.asList("75010"), 1000, 300000, 1);
+		String url = selogerUrlGenerator.generateSearchUrl(Arrays.asList("75010"), 1000, 300000, 1);
 
 		assertThat(url)
 				.startsWith("http://www.seloger.com/list.htm?idtt=2&naturebien=1,2,4&idtypebien=1,2,9&tri=d_dt_crea");
@@ -26,7 +26,7 @@ public class SelogerUrlGeneratorTest {
 
 	@Test
 	public void should_generate_url_with_page_2() {
-		String url = selogerUrlGenerator.generateUrl(Arrays.asList("75010"), 1000, 300000, 2);
+		String url = selogerUrlGenerator.generateSearchUrl(Arrays.asList("75010"), 1000, 300000, 2);
 
 		assertThat(url)
 				.startsWith("http://www.seloger.com/list.htm?idtt=2&naturebien=1,2,4&idtypebien=1,2,9&tri=d_dt_crea");

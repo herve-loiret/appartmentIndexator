@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
 
+import fr.appartment.indexator.brokers.AbstractIndexator;
 import fr.appartment.indexator.domain.Appartment;
 import fr.appartment.indexator.service.AppartmentService;
 import lombok.extern.slf4j.Slf4j;
@@ -97,6 +98,12 @@ public class SelogerIndexator extends AbstractIndexator {
 		Element listInfos = page.getElementsByClass("listing_infos").get(position);
 		String url = listInfos.getElementsByTag("a").first().attr("href");
 		return url;
+	}
+
+	@Override
+	protected Appartment deserializeDetails(Appartment appartment, String detailPage) {
+		
+		return null;
 	}
 
 }
