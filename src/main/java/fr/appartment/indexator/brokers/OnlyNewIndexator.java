@@ -1,19 +1,13 @@
 package fr.appartment.indexator.brokers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Future;
-
-import org.springframework.scheduling.annotation.AsyncResult;
 
 import fr.appartment.indexator.domain.Appartment;
 import fr.appartment.indexator.service.AppartmentService;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * TODO use this abstract class
- *
- */
 @Slf4j
 public abstract class OnlyNewIndexator implements Indexator {
 
@@ -27,7 +21,7 @@ public abstract class OnlyNewIndexator implements Indexator {
 	}
 
 	@Override
-	public Future<List<Appartment>> processIndex(List<String> postalCodes, Integer minPrice, Integer maxPrice) {
+	public List<Appartment> processIndex(List<String> postalCodes, Integer minPrice, Integer maxPrice) {
 
 		List<Appartment> appartementResults = new ArrayList<>();
 
@@ -35,17 +29,28 @@ public abstract class OnlyNewIndexator implements Indexator {
 		int totalPage = 0;
 		do {
 
-			String searchPage = client.getSearchPage(postalCodes, minPrice, maxPrice, currentPage);
+			String searchPage = "";
+			try {
+				searchPage = client.getSearchPage(postalCodes, minPrice, maxPrice, currentPage);
+			} catch (IOException e) {
+				// TODO
+				e.printStackTrace();
+			}
 			List<Appartment> partialAppartments = parseAppartmentsFromSearchPage(searchPage);
 
 			for (Appartment appartment : partialAppartments) {
 				if (appartmentService.isAlreadyInDatabase(appartment)) {
 					log.info("stop indexing seloger at page {} because {} is already in database", currentPage,
 							appartment);
-					return new AsyncResult<>(appartementResults);
+					return appartementResults;
 				} else {
-					String detailPage = client.getDetailsPage(appartment);
-					appartment = parseAppartmentFromDetailPage(appartment, detailPage);
+					try {
+						String detailPage = client.getDetailsPage(appartment);
+						appartment = parseAppartmentFromDetailPage(appartment, detailPage);
+					} catch (IOException e) {
+						// TODO
+						e.printStackTrace();
+					}
 					appartementResults.add(appartment);
 				}
 			}
@@ -54,7 +59,7 @@ public abstract class OnlyNewIndexator implements Indexator {
 			currentPage++;
 		} while (currentPage <= totalPage);
 
-		return new AsyncResult<>(appartementResults);
+		return appartementResults;
 	}
 
 	protected abstract int findTotalPageFromSearchPaget(String searchPage);
