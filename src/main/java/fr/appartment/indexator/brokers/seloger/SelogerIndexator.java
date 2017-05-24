@@ -21,14 +21,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
 
-import fr.appartment.indexator.brokers.AbstractIndexator;
+import fr.appartment.indexator.brokers.OnlyNewIndexator;
 import fr.appartment.indexator.domain.Appartment;
 import fr.appartment.indexator.service.AppartmentService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class SelogerIndexator extends AbstractIndexator {
+public class SelogerIndexator extends OnlyNewIndexator {
 
 	private static final int APPARTMENT_DATA_SCRITP_POSITION = 2;
 
@@ -37,7 +37,7 @@ public class SelogerIndexator extends AbstractIndexator {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List<Appartment> deserializeAppartmentFromPageContent(String pageContent) {
+	protected List<Appartment> parseAppartmentsFromSearchPage(String pageContent) {
 
 		List<Appartment> appartments = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class SelogerIndexator extends AbstractIndexator {
 	}
 
 	@Override
-	public int findPageNumberFromPageContent(String pageContent) {
+	public int findTotalPageFromSearchPaget(String pageContent) {
 		int result = 0;
 		Document page = Jsoup.parse(pageContent);
 		String pageString = page.getElementsByClass("pagination_result_number").first().html();
@@ -101,7 +101,7 @@ public class SelogerIndexator extends AbstractIndexator {
 	}
 
 	@Override
-	protected Appartment deserializeDetails(Appartment appartment, String detailPage) {
+	protected Appartment parseAppartmentFromDetailPage(Appartment appartment, String detailPage) {
 		
 		return null;
 	}
