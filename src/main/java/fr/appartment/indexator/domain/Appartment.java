@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 public class Appartment {
 
-	private Long id;
 	private String externalId;
 	private LocalDateTime indexationTime;
 	private String url;

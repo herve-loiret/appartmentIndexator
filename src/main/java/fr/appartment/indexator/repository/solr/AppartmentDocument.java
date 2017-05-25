@@ -9,7 +9,7 @@ import org.springframework.data.solr.core.mapping.SolrDocument;
 import lombok.Data;
 
 @Data
-@SolrDocument(solrCoreName = "appartmentIndexator")
+@SolrDocument(solrCoreName = "appindex")
 public class AppartmentDocument {
 
 	@Id

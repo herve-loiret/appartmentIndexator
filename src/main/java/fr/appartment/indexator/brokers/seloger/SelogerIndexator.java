@@ -53,6 +53,7 @@ public class SelogerIndexator extends OnlyNewIndexator {
 			for (Entry<String, Object> productsEntry : products.entrySet()) {
 				Map<String, Object> product = (Map<String, Object>) productsEntry.getValue();
 				Appartment appartment = new Appartment();
+				
 				appartment.setExternalId(parseString(product.get("idannonce")));
 				appartment.setUrl(findAppartmentUrl(page, product));
 				appartment.setPostalCode(parseString(product.get("cp")));
@@ -102,8 +103,8 @@ public class SelogerIndexator extends OnlyNewIndexator {
 
 	@Override
 	protected Appartment parseAppartmentFromDetailPage(Appartment appartment, String detailPage) {
-		
-		return null;
+		//TODO implement detail parsing
+		return appartment;
 	}
 
 }

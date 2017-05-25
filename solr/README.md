@@ -6,7 +6,7 @@
 - docker save apindex_solr > /tmp/apindex_solr.tar
 
 ## on your target client : 
-- docker load < /volume1/homes/yoshi/CloudStation/apindex_solr.ta
+- docker load < /volume1/homes/yoshi/CloudStation/apindex_solr.tar
 
 ## notes
 - this core is compatible for solr 6.5.1

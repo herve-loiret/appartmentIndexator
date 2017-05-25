@@ -8,8 +8,10 @@ import fr.appartment.indexator.domain.Appartment;
 import fr.appartment.indexator.repository.AppartmentRepository;
 import fr.appartment.indexator.repository.solr.AppartmentDocument;
 import fr.appartment.indexator.repository.solr.SolrMapper;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class AppartmentService {
 
 	private AppartmentRepository appartmentRepository;
@@ -23,7 +25,15 @@ public class AppartmentService {
 
 	public void save(List<Appartment> appartments) {
 		List<AppartmentDocument> documents = mapper.appartmentToAppartmentDocument(appartments);
-		appartmentRepository.save(documents);
+		if (documents != null) {
+			for(AppartmentDocument document : documents){
+
+				System.out.println("saving : " + document);
+				appartmentRepository.save(document);
+			}
+		}else{
+			log.error("error solr");
+		}
 	}
 
 	public boolean isAlreadyInDatabase(Appartment appartment) {

@@ -46,6 +46,7 @@ public class IndexatorService {
 			appartmentService.save(appartments.get());
 		}
 
+		System.out.println("finish");
 	}
 
 }
