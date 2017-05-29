@@ -49,5 +49,17 @@ public class SelogerClientStubTest {
 		assertThat(page).isNotBlank();
 		assertThat(page).isEqualTo(content);
 	}
+	
+	@Test
+	@SneakyThrows
+	public void should_stub_return_details() {
+		Path path = Paths.get(ClassLoader.getSystemResource("mocks/seloger/seloger_details.json").toURI());
+		String content = new String(Files.readAllBytes(path));
+
+		String details = client.getDetailsPage(null);
+
+		assertThat(details).isNotBlank();
+		assertThat(details).isEqualTo(content);
+	}
 
 }

@@ -21,9 +21,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import fr.appartment.indexator.brokers.OnlyNewIndexator;
 import fr.appartment.indexator.domain.Appartment;
 import fr.appartment.indexator.service.AppartmentService;
+import lombok.Data;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -102,9 +107,20 @@ public class SelogerIndexator extends OnlyNewIndexator {
 	}
 
 	@Override
+	@SneakyThrows
 	protected Appartment parseAppartmentFromDetailPage(Appartment appartment, String detailPage) {
-		//TODO implement detail parsing
+
+		ObjectMapper mapper = new ObjectMapper();
+		AppartmentDetail appartmentDetail = mapper.readValue(detailPage , AppartmentDetail.class);
+		appartment.setDescription(appartmentDetail.getDescriptif());
+		
 		return appartment;
+	}
+	
+	@Data
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	static class AppartmentDetail{
+		private String descriptif;
 	}
 
 }
