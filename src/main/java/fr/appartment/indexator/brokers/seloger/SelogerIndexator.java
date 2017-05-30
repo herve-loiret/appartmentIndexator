@@ -37,6 +37,8 @@ public class SelogerIndexator extends OnlyNewIndexator {
 
 	private static final int APPARTMENT_DATA_SCRITP_POSITION = 2;
 
+	private ObjectMapper mapper = new ObjectMapper();
+
 	public SelogerIndexator(SelogerClient client, AppartmentService appartmentService) {
 		super(client, appartmentService);
 	}
@@ -110,7 +112,6 @@ public class SelogerIndexator extends OnlyNewIndexator {
 	@SneakyThrows
 	protected Appartment parseAppartmentFromDetailPage(Appartment appartment, String detailPage) {
 
-		ObjectMapper mapper = new ObjectMapper();
 		AppartmentDetail appartmentDetail = mapper.readValue(detailPage , AppartmentDetail.class);
 		appartment.setDescription(appartmentDetail.getDescriptif());
 		
