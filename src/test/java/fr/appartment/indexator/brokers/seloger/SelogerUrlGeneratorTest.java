@@ -18,7 +18,7 @@ public class SelogerUrlGeneratorTest {
 		String url = selogerUrlGenerator.generateSearchUrl(Arrays.asList("75010"), 1000, 300000, 1);
 
 		assertThat(url)
-				.startsWith("http://www.seloger.com/list.htm?idtt=2&naturebien=1,2,4&idtypebien=1,2,9&tri=d_dt_crea");
+				.startsWith("http://www.seloger.com/list.htm?idtt=2&naturebien=1&idtypebien=1,2,9&tri=d_dt_crea");
 		assertThat(url).contains("&cp=75010");
 		assertThat(url).contains("&pxmin=1000");
 		assertThat(url).contains("&pxmax=300000");
@@ -29,7 +29,7 @@ public class SelogerUrlGeneratorTest {
 		String url = selogerUrlGenerator.generateSearchUrl(Arrays.asList("75010"), 1000, 300000, 2);
 
 		assertThat(url)
-				.startsWith("http://www.seloger.com/list.htm?idtt=2&naturebien=1,2,4&idtypebien=1,2,9&tri=d_dt_crea");
+				.startsWith("http://www.seloger.com/list.htm?idtt=2&naturebien=1&idtypebien=1,2,9&tri=d_dt_crea");
 		assertThat(url).contains("&cp=75010");
 		assertThat(url).contains("&pxmin=1000");
 		assertThat(url).contains("&pxmax=300000");
