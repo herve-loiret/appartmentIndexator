@@ -14,14 +14,15 @@ import fr.appartment.indexator.utils.HttpUtils;
 @Profile("!local")
 public class SelogerClient implements Client {
 
-	private SelogerUrlGenerator urlGenerator;
+	protected SelogerUrlGenerator urlGenerator;
 
 	public SelogerClient(SelogerUrlGenerator urlGenerator) {
 		this.urlGenerator = urlGenerator;
 	}
 
 	@Override
-	public String getSearchPage(List<String> postalCodes, Integer minPrice, Integer maxPrice, int page) throws IOException {
+	public String getSearchPage(List<String> postalCodes, Integer minPrice, Integer maxPrice, int page)
+			throws IOException {
 		String url = urlGenerator.generateSearchUrl(postalCodes, minPrice, maxPrice, page);
 		return HttpUtils.performGet(url);
 	}
@@ -29,6 +30,10 @@ public class SelogerClient implements Client {
 	@Override
 	public String getDetailsPage(Appartment appartment) throws IOException {
 		return HttpUtils.performGet(urlGenerator.generateDetailsUrl(appartment));
+	}
+
+	public String getAutocompletePage(String search) throws IOException {
+		return HttpUtils.performGet(urlGenerator.getAutocompleteUrl(search));
 	}
 
 }

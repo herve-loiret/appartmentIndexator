@@ -12,7 +12,7 @@ import lombok.SneakyThrows;
 
 public class SelogerClientStubTest {
 
-	private SelogerClientStub client = new SelogerClientStub();
+	private SelogerClientStub client = new SelogerClientStub(new SelogerUrlGenerator());
 
 	@Test
 	@SneakyThrows

@@ -1,0 +1,34 @@
+[
+  {
+    "Type": "Group",
+    "Display": "44250 (Toutes les villes)",
+    "Tag": "44250 (Toutes les villes)",
+    "Params": {
+      "cp": "44250"
+    }
+  },
+  {
+    "Type": "Ville",
+    "Display": "44250 Mindin",
+    "Tag": "Mindin",
+    "Params": {
+      "ci": "440902"
+    }
+  },
+  {
+    "Type": "Ville",
+    "Display": "44250 Saint Brevin l'Ocean",
+    "Tag": "Saint Brevin l'Ocean",
+    "Params": {
+      "ci": "440926"
+    }
+  },
+  {
+    "Type": "Ville",
+    "Display": "44250 Saint-Brevin-les-Pins",
+    "Tag": "Saint-Brevin-les-Pins",
+    "Params": {
+      "ci": "440154"
+    }
+  }
+]
