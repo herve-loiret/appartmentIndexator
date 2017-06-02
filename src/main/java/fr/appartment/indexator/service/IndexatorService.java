@@ -31,7 +31,7 @@ public class IndexatorService {
 	public void index(List<String> postalCodes, Integer minPrice, Integer maxPrice) {
 
 		if (indexators.size() == 0) {
-			log.error("There is not indexators");
+			log.error("There is not indexators... abording");
 			return;
 		}
 
@@ -46,7 +46,7 @@ public class IndexatorService {
 			appartmentService.save(appartments.get());
 		}
 
-		System.out.println("finish");
+		log.info("indexation finished");
 	}
 
 }

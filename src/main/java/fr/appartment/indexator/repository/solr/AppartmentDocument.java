@@ -1,6 +1,6 @@
 package fr.appartment.indexator.repository.solr;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
@@ -18,7 +18,7 @@ public class AppartmentDocument {
 	@Field
 	private String externalId;
 	@Field
-	private LocalDateTime indexationTime;
+	private Date indexationTime;
 	@Field
 	private String url;
 	@Field
