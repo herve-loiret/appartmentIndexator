@@ -13,6 +13,6 @@ public class IndexationCreationDto {
 	private Integer maxPrice;
 	
 	@NotNull
-	private List<String> postalCodes;
+	private List<String> searchKeywords;
 	
 }

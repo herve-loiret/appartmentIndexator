@@ -36,18 +36,18 @@ public class AppartmentIndexatorControllerTest {
 	public void should_indexation_creation_work() {
 		int minPrice = 100_000;
 		int maxPrice = 300_000;
-		List<String> postalCodes = Arrays.asList("75011");
+		List<String> searchKeywords = Arrays.asList("75011");
 
 		IndexationCreationDto indexationCreationDto = new IndexationCreationDto();
 		indexationCreationDto.setMinPrice(minPrice);
 		indexationCreationDto.setMaxPrice(maxPrice);
-		indexationCreationDto.setPostalCodes(postalCodes);
+		indexationCreationDto.setSearchKeywords(searchKeywords);
 		String json = new ObjectMapper().writeValueAsString(indexationCreationDto);
 
 		mockMvc.perform(
 				MockMvcRequestBuilders.post("/indexator/index").contentType(MediaType.APPLICATION_JSON).content(json));
 
-		verify(indexatorService).index(postalCodes, minPrice, maxPrice);
+		verify(indexatorService).index(searchKeywords, minPrice, maxPrice);
 	}
 
 }

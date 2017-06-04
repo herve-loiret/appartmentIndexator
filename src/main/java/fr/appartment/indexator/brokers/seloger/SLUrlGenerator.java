@@ -46,7 +46,7 @@ public class SLUrlGenerator implements UrlGenerator {
 	public String generateSearchUrl(List<String> searchKeywords, Integer minPrice, Integer maxPrice, int page) {
 
 		// TODO include parameters in url
-		String baseUrl = "http://www.seloger.com/list.htm?idtt=2&naturebien=1&idtypebien=1,2,9&tri=d_dt_crea";
+		String baseUrl = "http://www.seloger.com/list.htm?idtt=2&naturebien=1&idtypebien=1,2,9,11&tri=d_dt_crea";
 		if (minPrice != null) {
 			baseUrl += "&pxmin=" + String.valueOf(minPrice);
 		}

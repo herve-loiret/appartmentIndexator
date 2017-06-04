@@ -19,7 +19,7 @@ public class AppartmentIndexatorController {
 
 	@PostMapping(value = "/index")
 	public void postTransaction(@RequestBody IndexationCreationDto indexationCreationDto) {
-		indexatorService.index(indexationCreationDto.getPostalCodes(), indexationCreationDto.getMinPrice(),
+		indexatorService.index(indexationCreationDto.getSearchKeywords(), indexationCreationDto.getMinPrice(),
 				indexationCreationDto.getMaxPrice());
 	}
 }

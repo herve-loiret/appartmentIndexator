@@ -19,9 +19,11 @@ import javax.script.ScriptException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.appartment.indexator.brokers.PageIndexator;
@@ -60,23 +62,24 @@ public class SLIndexator extends PageIndexator {
 			for (Entry<String, Object> productsEntry : products.entrySet()) {
 				Map<String, Object> product = (Map<String, Object>) productsEntry.getValue();
 				Appartment appartment = new Appartment();
-
 				appartment.setExternalId(parseString(product.get("idannonce")));
-				appartment.setUrl(findAppartmentUrl(page, product));
-				appartment.setPostalCode(parseString(product.get("cp")));
-				appartment.setEtage(parseInt(product.get("etage")));
-				appartment.setPrice(parseDouble(product.get("prix")));
-				appartment.setSurface(parseDouble(product.get("surface")));
-				appartment.setNbPhotos(parseInt(product.get("nb_photos")));
-				appartment.setType(parseString(product.get("typedebien")));
-				appartment.setTypeChauffage(parseString(product.get("idtypechauffage")));
-				appartment.setTypeCuisine(parseString(product.get("idtypecuisine")));
-				appartment.setHasBalcon(parseNumberBoolean(product.get("si_balcon")));
-				appartment.setHasSdbain(parseNumberBoolean(product.get("si_sdbain")));
-				appartment.setHasSdEau(parseNumberBoolean(product.get("si_sdEau")));
-				appartment.setNbChambres(parseInt(product.get("nb_chambres")));
-				appartment.setNbPieces(parseInt(product.get("nb_pieces")));
-				appartments.add(appartment);
+				if (appartment.getExternalId() != null) {
+					appartment.setUrl(findAppartmentUrl(page, product));
+					appartment.setPostalCode(parseString(product.get("cp")));
+					appartment.setEtage(parseInt(product.get("etage")));
+					appartment.setPrice(parseDouble(product.get("prix")));
+					appartment.setSurface(parseDouble(product.get("surface")));
+					appartment.setNbPhotos(parseInt(product.get("nb_photos")));
+					appartment.setType(parseString(product.get("typedebien")));
+					appartment.setTypeChauffage(parseString(product.get("idtypechauffage")));
+					appartment.setTypeCuisine(parseString(product.get("idtypecuisine")));
+					appartment.setHasBalcon(parseNumberBoolean(product.get("si_balcon")));
+					appartment.setHasSdbain(parseNumberBoolean(product.get("si_sdbain")));
+					appartment.setHasSdEau(parseNumberBoolean(product.get("si_sdEau")));
+					appartment.setNbChambres(parseInt(product.get("nb_chambres")));
+					appartment.setNbPieces(parseInt(product.get("nb_pieces")));
+					appartments.add(appartment);
+				}
 			}
 		} catch (ScriptException e) {
 			log.error("error while trying to index appartment", e);
@@ -89,12 +92,17 @@ public class SLIndexator extends PageIndexator {
 	public int findTotalPageFromSearchPaget(String pageContent) {
 		int result = 0;
 		Document page = Jsoup.parse(pageContent);
-		String pageString = page.getElementsByClass("pagination_result_number").first().html();
-		Pattern pattern = Pattern.compile("Page ([0-9]+) / ([0-9]+)");
-		Matcher matcher = pattern.matcher(pageString);
-		if (matcher.find()) {
-			// int currentPage = matcher.group(1));
-			result = Integer.valueOf(matcher.group(2));
+		Elements paginationElements = page.getElementsByClass("pagination_result_number");
+		if (paginationElements.isEmpty()) {
+			result = 1;
+		} else {
+			String pageString = page.getElementsByClass("pagination_result_number").first().html();
+			Pattern pattern = Pattern.compile("Page ([0-9]+) / ([0-9]+)");
+			Matcher matcher = pattern.matcher(pageString);
+			if (matcher.find()) {
+				// int currentPage = matcher.group(1));
+				result = Integer.valueOf(matcher.group(2));
+			}
 		}
 
 		return result;
@@ -112,8 +120,12 @@ public class SLIndexator extends PageIndexator {
 	@SneakyThrows
 	protected Appartment parseAppartmentFromDetailPage(Appartment appartment, String detailPage) {
 
-		AppartmentDetail appartmentDetail = mapper.readValue(detailPage, AppartmentDetail.class);
-		appartment.setDescription(appartmentDetail.getDescriptif());
+		try {
+			AppartmentDetail appartmentDetail = mapper.readValue(detailPage, AppartmentDetail.class);
+			appartment.setDescription(appartmentDetail.getDescriptif());
+		} catch (JsonMappingException e) {
+			log.error("error while parsing appartment " + appartment + " on detailPage : " + detailPage, e);
+		}
 
 		return appartment;
 	}
