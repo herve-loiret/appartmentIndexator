@@ -20,9 +20,13 @@ public abstract class PageIndexator implements Indexator {
 
 	@Getter
 	private int totalPage = -1;
+	
+	@Getter
+	private AppartmentService appartmentService;
 
 	public PageIndexator(Client client, AppartmentService appartmentService) {
 		this.client = client;
+		this.appartmentService = appartmentService;
 	}
 
 	@Override

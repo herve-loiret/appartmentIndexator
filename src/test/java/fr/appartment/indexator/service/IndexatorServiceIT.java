@@ -20,7 +20,7 @@ public class IndexatorServiceIT {
 
 	@Test
 	public void should_index() {
-		List<String> postalCodes = Arrays.asList("75010");
+		List<String> postalCodes = Arrays.asList("ile");
 		int minPrice = 1000;
 		int maxPrice = 300000;
 

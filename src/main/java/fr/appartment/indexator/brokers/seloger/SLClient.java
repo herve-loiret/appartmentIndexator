@@ -3,6 +3,7 @@ package fr.appartment.indexator.brokers.seloger;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -12,13 +13,10 @@ import fr.appartment.indexator.utils.HttpUtils;
 
 @Component
 @Profile("!local")
-public class SelogerClient implements Client {
+public class SLClient implements Client {
 
-	protected SelogerUrlGenerator urlGenerator;
-
-	public SelogerClient(SelogerUrlGenerator urlGenerator) {
-		this.urlGenerator = urlGenerator;
-	}
+	@Autowired
+	protected SLUrlGenerator urlGenerator;
 
 	@Override
 	public String getSearchPage(List<String> postalCodes, Integer minPrice, Integer maxPrice, int page)

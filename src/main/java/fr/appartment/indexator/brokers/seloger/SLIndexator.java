@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.appartment.indexator.brokers.OnlyNewIndexator;
+import fr.appartment.indexator.brokers.PageIndexator;
 import fr.appartment.indexator.domain.Appartment;
 import fr.appartment.indexator.service.AppartmentService;
 import lombok.Data;
@@ -33,13 +33,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class SelogerIndexator extends OnlyNewIndexator {
+public class SLIndexator extends PageIndexator {
 
 	private static final int APPARTMENT_DATA_SCRITP_POSITION = 2;
 
 	private ObjectMapper mapper = new ObjectMapper();
 
-	public SelogerIndexator(SelogerClient client, AppartmentService appartmentService) {
+	public SLIndexator(SLClient client, AppartmentService appartmentService) {
 		super(client, appartmentService);
 	}
 
@@ -60,7 +60,7 @@ public class SelogerIndexator extends OnlyNewIndexator {
 			for (Entry<String, Object> productsEntry : products.entrySet()) {
 				Map<String, Object> product = (Map<String, Object>) productsEntry.getValue();
 				Appartment appartment = new Appartment();
-				
+
 				appartment.setExternalId(parseString(product.get("idannonce")));
 				appartment.setUrl(findAppartmentUrl(page, product));
 				appartment.setPostalCode(parseString(product.get("cp")));
@@ -112,16 +112,21 @@ public class SelogerIndexator extends OnlyNewIndexator {
 	@SneakyThrows
 	protected Appartment parseAppartmentFromDetailPage(Appartment appartment, String detailPage) {
 
-		AppartmentDetail appartmentDetail = mapper.readValue(detailPage , AppartmentDetail.class);
+		AppartmentDetail appartmentDetail = mapper.readValue(detailPage, AppartmentDetail.class);
 		appartment.setDescription(appartmentDetail.getDescriptif());
-		
+
 		return appartment;
 	}
-	
+
 	@Data
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	static class AppartmentDetail{
+	static class AppartmentDetail {
 		private String descriptif;
+	}
+
+	@Override
+	protected boolean shouldIndexDetailsOfThisAppartment(Appartment appartment) {
+		return !this.getAppartmentService().isAlreadyInDatabase(appartment);
 	}
 
 }

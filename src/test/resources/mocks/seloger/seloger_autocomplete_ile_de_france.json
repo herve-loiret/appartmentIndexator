@@ -1,0 +1,42 @@
+[
+  {
+    "Type": "Region",
+    "Display": "Île-de-France",
+    "Tag": "Île-de-France",
+    "Params": {
+      "div": "2238"
+    }
+  },
+  {
+    "Type": "Quartier",
+    "Display": "Ile de France - Les Ulis (91940)",
+    "Tag": "Ile de France",
+    "Params": {
+      "idq": "131551"
+    }
+  },
+  {
+    "Type": "Quartier",
+    "Display": "Paris-Ile de France - Vernon (27200)",
+    "Tag": "Paris-Ile de France",
+    "Params": {
+      "idq": "100335"
+    }
+  },
+  {
+    "Type": "Quartier",
+    "Display": "Beulet-Ile de France - Annemasse (74100)",
+    "Tag": "Beulet-Ile de France",
+    "Params": {
+      "idq": "124057"
+    }
+  },
+  {
+    "Type": "Quartier",
+    "Display": "Lycee-Ile de France-Pres Saint Ouen - Saint-Ouen-l'Aumône (95310)",
+    "Tag": "Lycee-Ile de France-Pres Saint Ouen",
+    "Params": {
+      "idq": "132939"
+    }
+  }
+]

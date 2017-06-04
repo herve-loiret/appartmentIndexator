@@ -11,21 +11,20 @@ import org.springframework.stereotype.Component;
 
 import fr.appartment.indexator.domain.Appartment;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Profile("local")
-public class SelogerClientStub extends SelogerClient {
-
-	public SelogerClientStub(SelogerUrlGenerator urlGenerator) {
-		super(urlGenerator);
-	}
+@Slf4j
+public class SLClientStub extends SLClient {
 
 	@Override
 	@SneakyThrows
 	public String getSearchPage(List<String> postalCodes, Integer minPrice, Integer maxPrice, int page) {
 
 		// just for making the tests execute this method
-		urlGenerator.generateSearchUrl(postalCodes, minPrice, maxPrice, page);
+		String searchUrl = urlGenerator.generateSearchUrl(postalCodes, minPrice, maxPrice, page);
+		log.info("search url : {}", searchUrl);
 
 		Path path;
 
@@ -60,6 +59,10 @@ public class SelogerClientStub extends SelogerClient {
 
 		if (search.startsWith("44")) {
 			filePath = "mocks/seloger/seloger_autocomplete_44250.json";
+		}
+
+		if (search.startsWith("ile")) {
+			filePath = "mocks/seloger/seloger_autocomplete_ile_de_france.json";
 		}
 
 		Path path = Paths.get(ClassLoader.getSystemResource(filePath).toURI());

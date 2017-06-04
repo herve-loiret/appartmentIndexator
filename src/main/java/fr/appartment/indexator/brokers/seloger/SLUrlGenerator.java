@@ -1,29 +1,21 @@
 package fr.appartment.indexator.brokers.seloger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import fr.appartment.indexator.brokers.UrlGenerator;
-import fr.appartment.indexator.brokers.seloger.SelogerIndexator.AppartmentDetail;
 import fr.appartment.indexator.domain.Appartment;
-import lombok.Data;
-import lombok.SneakyThrows;
 
 @Component
-public class SelogerUrlGenerator implements UrlGenerator {
+public class SLUrlGenerator implements UrlGenerator {
 
 	@Autowired
-	private SelogerClient selogerClient;
-	
-	private ObjectMapper mapper = new ObjectMapper();
+	private SLResolveLocationParameter searchToParamService;
 
 	/**
 	 * url explanation
@@ -53,10 +45,8 @@ public class SelogerUrlGenerator implements UrlGenerator {
 	@Override
 	public String generateSearchUrl(List<String> searchKeywords, Integer minPrice, Integer maxPrice, int page) {
 
-		searchKeywordsToParameters(searchKeywords);
-		
+		// TODO include parameters in url
 		String baseUrl = "http://www.seloger.com/list.htm?idtt=2&naturebien=1&idtypebien=1,2,9&tri=d_dt_crea";
-		baseUrl += "&cp=" + searchKeywords.get(0);
 		if (minPrice != null) {
 			baseUrl += "&pxmin=" + String.valueOf(minPrice);
 		}
@@ -68,6 +58,18 @@ public class SelogerUrlGenerator implements UrlGenerator {
 			baseUrl += "&LISTING-LISTpg=" + String.valueOf(page);
 		}
 
+		List<SLParameter> sLParameters = searchToParamService.searchKeywordsToParameters(searchKeywords);
+
+		Map<String, List<SLParameter>> parametersByName = sLParameters.stream()
+				.collect(Collectors.groupingBy(SLParameter::getName, Collectors.toList()));
+
+		for (Entry<String, List<SLParameter>> parameterEntry : parametersByName.entrySet()) {
+			String parameterString = "&" + parameterEntry.getKey() + "=";
+			parameterString += parameterEntry.getValue().stream().map(SLParameter::getValue)
+					.collect(Collectors.joining(","));
+			baseUrl += parameterString;
+		}
+
 		return baseUrl;
 	}
 
@@ -76,38 +78,8 @@ public class SelogerUrlGenerator implements UrlGenerator {
 		return "http://www.seloger.com/detail,json,caracteristique_bien.json?idannonce=" + appartment.getExternalId();
 	}
 
-	@SneakyThrows
-	private List<Parameter> searchKeywordsToParameters(List<String> postalCodes) {
-
-		List<Parameter> parameters = new ArrayList<>();
-
-		for (String searchKeyword : postalCodes) {
-			
-			String responsePage = selogerClient.getAutocompletePage(searchKeyword);
-			
-			
-			AutoCompleteResult[] autoCompleteResult = mapper.readValue(responsePage, AutoCompleteResult[].class);
-			
-		}
-
-		return parameters;
-	}
-
 	public String getAutocompleteUrl(String search) {
 		return "http://autocomplete.svc.groupe-seloger.com/auto/complete/fra/63/6?text=" + search;
-	}
-	
-	@Data
-	@JsonIgnoreProperties(ignoreUnknown = true)
-	static class AutoCompleteResult{
-		private String type;
-		private List<String> params;
-	}
-
-	@Data
-	private class Parameter {
-		String name;
-		String value;
 	}
 
 }
