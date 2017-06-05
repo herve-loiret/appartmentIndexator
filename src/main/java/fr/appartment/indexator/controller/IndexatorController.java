@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(path = "/indexator", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
-public class AppartmentIndexatorController {
+public class IndexatorController {
 
 	private IndexatorService indexatorService;
 
@@ -22,4 +22,5 @@ public class AppartmentIndexatorController {
 		indexatorService.index(indexationCreationDto.getSearchKeywords(), indexationCreationDto.getMinPrice(),
 				indexationCreationDto.getMaxPrice());
 	}
+		
 }

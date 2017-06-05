@@ -22,8 +22,8 @@ import fr.appartment.indexator.service.IndexatorService;
 import lombok.SneakyThrows;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(AppartmentIndexatorController.class)
-public class AppartmentIndexatorControllerTest {
+@WebMvcTest(IndexatorController.class)
+public class IndexatorControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
+
 import fr.appartment.indexator.domain.Appartment;
 import fr.appartment.indexator.repository.AppartmentRepository;
 import fr.appartment.indexator.repository.solr.AppartmentDocument;
@@ -26,12 +28,12 @@ public class AppartmentService {
 	public void save(List<Appartment> appartments) {
 		List<AppartmentDocument> documents = mapper.appartmentToAppartmentDocument(appartments);
 		if (documents != null) {
-			for(AppartmentDocument document : documents){
+			for (AppartmentDocument document : documents) {
 
 				System.out.println("saving : " + document);
 				appartmentRepository.save(document);
 			}
-		}else{
+		} else {
 			log.error("error solr");
 		}
 	}
@@ -39,6 +41,15 @@ public class AppartmentService {
 	public boolean isAlreadyInDatabase(Appartment appartment) {
 		AppartmentDocument document = appartmentRepository.findByUrl(appartment.getUrl());
 		return document != null;
+	}
+
+	public void deleteAllAppartment() {
+		appartmentRepository.deleteAll();
+	}
+
+	public List<Appartment> findAllAppartment() {
+		Iterable<AppartmentDocument> appartmentDocuments = appartmentRepository.findAll();
+		return mapper.appartmentDocumentToAppartment(Lists.newArrayList(appartmentDocuments));
 	}
 
 }
