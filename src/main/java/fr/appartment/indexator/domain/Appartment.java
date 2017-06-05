@@ -1,6 +1,7 @@
 package fr.appartment.indexator.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 
@@ -26,7 +27,7 @@ public class Appartment {
 	private Boolean hasSdbain;
 	private Boolean hasSdEau;
 	private Integer nbPhotos;
-	private String typeTransaction;
+	private List<String> typeTransactions;
 
 	public Double getPriceByMeter() {
 		return price / surface;

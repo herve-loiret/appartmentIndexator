@@ -45,7 +45,7 @@ public class SLIndexator extends PageIndexator {
 		super(client, appartmentService);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected List<Appartment> parseAppartmentsFromSearchPage(String pageContent) {
 
 		List<Appartment> appartments = new ArrayList<>();
@@ -71,7 +71,10 @@ public class SLIndexator extends PageIndexator {
 					appartment.setSurface(parseDouble(product.get("surface")));
 					appartment.setNbPhotos(parseInt(product.get("nb_photos")));
 					appartment.setType(parseString(product.get("typedebien")));
-					appartment.setType(parseString(product.get("typedetransaction"))); //TODO test this case (it's a array)
+					Map<String, Object> transactionTypes = (Map<String, Object>) product.get("typedetransaction");
+					if (transactionTypes != null && !transactionTypes.isEmpty()) {
+						appartment.setTypeTransactions(new ArrayList(transactionTypes.values()));
+					}
 					appartment.setTypeChauffage(parseString(product.get("idtypechauffage")));
 					appartment.setTypeCuisine(parseString(product.get("idtypecuisine")));
 					appartment.setHasBalcon(parseNumberBoolean(product.get("si_balcon")));

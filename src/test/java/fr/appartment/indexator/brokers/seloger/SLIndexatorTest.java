@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -32,6 +34,27 @@ public class SLIndexatorTest {
 
 		assertThat(appartment.getDescription()).startsWith(
 				"A proximité de la Nation, dans une belle résidence, nous vous proposons, un viager occupé par un homme de 81 ans.");
+	}
+
+	@Test
+	@SneakyThrows
+	public void should_parse_appartment_list() {
+		Path path = Paths.get(ClassLoader.getSystemResource("mocks/seloger/seloger_11eme_page1.htm").toURI());
+		String searchPage = new String(Files.readAllBytes(path));
+
+		List<Appartment> appartments = sLIndexator.parseAppartmentsFromSearchPage(searchPage);
+
+		assertThat(appartments).size().isEqualTo(20);
+		Appartment appartment = appartments.get(0);
+		assertThat(appartment.getExternalId()).isEqualTo("118648837");
+		assertThat(appartment.getType()).isEqualTo("Appartement");
+		assertThat(appartment.getTypeTransactions()).isEqualTo(Arrays.asList("vente"));
+		assertThat(appartment.getPostalCode()).isEqualTo("75011");
+		assertThat(appartment.getEtage()).isEqualTo(5);
+		assertThat(appartment.getTypeChauffage()).isEqualTo("électrique");
+		assertThat(appartment.getPrice()).isEqualTo(155_000);
+		assertThat(appartment.getSurface()).isEqualTo(17);
+		assertThat(appartment.getNbPhotos()).isEqualTo(10);
 	}
 
 }
