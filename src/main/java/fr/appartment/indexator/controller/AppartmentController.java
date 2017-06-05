@@ -26,6 +26,12 @@ public class AppartmentController {
 
 	@GetMapping
 	public List<Appartment> getAllAppartments() {
-		return appartmentService.findAllAppartment();
+		return appartmentService.findAllAppartments();
 	}
+
+	@GetMapping(value = "/count")
+	public Long getCountAppartments() {
+		return appartmentService.countAllAppartments();
+	}
+
 }

@@ -47,9 +47,13 @@ public class AppartmentService {
 		appartmentRepository.deleteAll();
 	}
 
-	public List<Appartment> findAllAppartment() {
+	public List<Appartment> findAllAppartments() {
 		Iterable<AppartmentDocument> appartmentDocuments = appartmentRepository.findAll();
 		return mapper.appartmentDocumentToAppartment(Lists.newArrayList(appartmentDocuments));
+	}
+	
+	public Long countAllAppartments() {
+		return appartmentRepository.count();
 	}
 
 }
