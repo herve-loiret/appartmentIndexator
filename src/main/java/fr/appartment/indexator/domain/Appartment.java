@@ -26,6 +26,7 @@ public class Appartment {
 	private Boolean hasSdbain;
 	private Boolean hasSdEau;
 	private Integer nbPhotos;
+	private String typeTransaction;
 
 	public Double getPriceByMeter() {
 		return price / surface;

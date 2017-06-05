@@ -71,6 +71,7 @@ public class SLIndexator extends PageIndexator {
 					appartment.setSurface(parseDouble(product.get("surface")));
 					appartment.setNbPhotos(parseInt(product.get("nb_photos")));
 					appartment.setType(parseString(product.get("typedebien")));
+					appartment.setType(parseString(product.get("typedetransaction"))); //TODO test this case (it's a array)
 					appartment.setTypeChauffage(parseString(product.get("idtypechauffage")));
 					appartment.setTypeCuisine(parseString(product.get("idtypecuisine")));
 					appartment.setHasBalcon(parseNumberBoolean(product.get("si_balcon")));
