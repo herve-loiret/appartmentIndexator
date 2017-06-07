@@ -1,6 +1,7 @@
 package fr.appartment.indexator.repository.solr;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
@@ -53,5 +54,7 @@ public class AppartmentDocument {
 	private Integer nbPhotos;
 	@Field
 	private Double priceByMeter;
+	@Field
+	private List<String> typeTransactions;
 
 }

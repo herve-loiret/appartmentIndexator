@@ -33,8 +33,9 @@ public abstract class OnlyNewIndexator implements Indexator {
 			try {
 				searchPage = client.getSearchPage(postalCodes, minPrice, maxPrice, currentPage);
 			} catch (IOException e) {
-				// TODO
-				e.printStackTrace();
+				log.error(
+						"error while get search page for search postalCodes:{}, minPrice:{}, maxPrice:{}, currentPage:{}",
+						postalCodes, minPrice, maxPrice, currentPage);
 			}
 			List<Appartment> partialAppartments = parseAppartmentsFromSearchPage(searchPage);
 

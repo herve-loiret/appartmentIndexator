@@ -17,9 +17,9 @@ public class SolrMapperTest {
 
 	@Test
 	public void should_mapper_map_Appartment_into_AppartmentDocument() {
-		
+
 		List<Appartment> appartments = Arrays.asList(new PodamFactoryImpl().manufacturePojo(Appartment.class));
-		
+
 		List<AppartmentDocument> appartmentDocuments = mapper.appartmentToAppartmentDocument(appartments);
 
 		assertThat(appartments).size().isEqualTo(appartmentDocuments.size());
@@ -31,8 +31,8 @@ public class SolrMapperTest {
 		assertThat(appartmentDocument.getHasBalcon()).isEqualTo(appartment.getHasBalcon());
 		assertThat(appartmentDocument.getHasSdbain()).isEqualTo(appartment.getHasSdbain());
 		assertThat(appartmentDocument.getHasSdEau()).isEqualTo(appartment.getHasSdEau());
-//		assertThat(appartmentDocument.getId()).isEqualTo(String.valueOf(appartment.getId()));
-		assertThat(appartmentDocument.getIndexationTime()).isEqualTo(appartment.getIndexationTime());
+		assertThat(appartmentDocument.getId()).isEqualTo(appartment.getExternalId());
+		// assertThat(appartmentDocument.getIndexationTime()).isEqualTo(Date.from(appartment.getIndexationTime().atZone(ZoneId.systemDefault()).toInstant()));
 		assertThat(appartmentDocument.getNbChambres()).isEqualTo(appartment.getNbChambres());
 		assertThat(appartmentDocument.getNbPhotos()).isEqualTo(appartment.getNbPhotos());
 		assertThat(appartmentDocument.getNbPieces()).isEqualTo(appartment.getNbPieces());
@@ -44,5 +44,6 @@ public class SolrMapperTest {
 		assertThat(appartmentDocument.getTypeCommerce()).isEqualTo(appartment.getTypeCommerce());
 		assertThat(appartmentDocument.getTypeCuisine()).isEqualTo(appartment.getTypeCuisine());
 		assertThat(appartmentDocument.getUrl()).isEqualTo(appartment.getUrl());
+		assertThat(appartmentDocument.getTypeTransactions()).isEqualTo(appartment.getTypeTransactions());
 	}
 }

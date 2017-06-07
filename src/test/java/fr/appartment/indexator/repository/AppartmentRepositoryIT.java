@@ -19,8 +19,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @ActiveProfiles(profiles = "local")
 public class AppartmentRepositoryIT {
 	/**
-	 * TODO refactor from :
-	 * https://github.com/spring-projects/spring-data-solr-examples/blob/master/spring-solr-repository-example/src/test/java/org/springframework/data/solr/example/ITestSolrProductRepository.java
+	 * TODO mock solr
 	 */
 	@Autowired
 	private SolrMapper mapper;

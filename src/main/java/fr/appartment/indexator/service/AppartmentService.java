@@ -29,8 +29,6 @@ public class AppartmentService {
 		List<AppartmentDocument> documents = mapper.appartmentToAppartmentDocument(appartments);
 		if (documents != null) {
 			for (AppartmentDocument document : documents) {
-
-				System.out.println("saving : " + document);
 				appartmentRepository.save(document);
 			}
 		} else {
